@@ -23,12 +23,8 @@ if ($_FILES['profile_image']['size'] > 0) {
 }
 
 // Insert user into database
-$sql = "INSERT INTO users (username, password, email, profile_image) VALUES ('$username', '$password', '$email', '$profileImage')";
-if ($conn->query($sql) === TRUE) {
-    echo "Registration successful!";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
+$sql = $db->prepare("INSERT INTO users (username, password, profile_image) VALUES (?, ?, ?)");
+$sql->execute([$username, $password, $profileImage]);
 
 // Close database connection
 $conn->close();
